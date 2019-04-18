@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request
 import time
 from datetime import datetime
-import json
+from flask_cors import CORS
 from bandwidths import BANDWIDTHS
 
 app = Flask('__main__')
+CORS(app)
 
 
 @app.route('/')
@@ -14,6 +15,7 @@ def index():
 
 @app.route('/getData', methods=['GET'])
 def getData():
+    print("request received")
     device_uuid = request.args.get('device_uuid')
     end_time = request.args.get('end_time', default=time.time())
     window_time = request.args.get('window_time', default=60, type=int)
@@ -42,8 +44,10 @@ def getData():
             if(temp_window_num>=num_windows-1):
                 break
         ans.append(temp)
+        print("response sent")
         return(str(ans))
     else:
+        print("response sent")
         return('invalid device id')    
 
 
