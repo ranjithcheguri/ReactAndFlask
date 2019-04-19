@@ -7,23 +7,20 @@ from bandwidths import BANDWIDTHS
 app = Flask('__main__')
 CORS(app)
 
-
-@app.route('/')
-def index():
-    return "Hello Flask"
-
-
-@app.route('/getData', methods=['GET'])
+@app.route('/', methods=['GET'])
 def getData():
-    print("request received")
+    print("request received",request.args)
     device_uuid = request.args.get('device_uuid')
-    end_time = request.args.get('end_time', default=time.time())
+    end_time = request.args.get('end_time', default=int(time.time()),type=int)
     window_time = request.args.get('window_time', default=60, type=int)
     num_windows = request.args.get('num_windows', default=10, type=int)
-
-    device_uuid = "04827402-0725-437c-bc22-c9670ea084f0"
-    end_time = time.time()
+    #print(time.time())
+    #print("parameters",device_uuid,end_time,window_time,num_windows)
+    if(window_time==0 or num_windows==0):
+        print("Error sent")
+        return('invalid device id',403)
     output = list(filter(lambda item: item["device_id"] == device_uuid and item['timestamp'] <= end_time, BANDWIDTHS))
+    #print(output)
     if(len(output)>0):
         start = output[0]["timestamp"]
         temp=[start,output[0]["bytes_ts"],output[0]["bytes_fs"]]
@@ -45,11 +42,10 @@ def getData():
                 break
         ans.append(temp)
         print("response sent")
-        return(str(ans))
+        return(str(ans),200)
     else:
-        print("response sent")
-        return('invalid device id')    
-
-
+        print("output",output)
+        print("Error sent")
+        return('invalid device id',403)
 # if __name__ == '__main__':
 app.run(debug=True)

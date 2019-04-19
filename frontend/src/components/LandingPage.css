@@ -23,7 +23,7 @@
     background-color: #fff !important;
     color:#151515 !important;
     border:0 !important;
-    border-bottom: 1px solid #cc005f !important;
+    border-bottom: 1px solid #1E88E5 !important;
     outline-color: transparent !important;
     outline-style: none !important;
     -webkit-transition: border-bottom 0.5s;
@@ -32,13 +32,10 @@
 .myButton{
     /* border-0 in bootstrap*/
     border-radius: 0% !important;
-    border:1px solid #1F1F1F !important;
     padding:15px 50px 15px 50px !important;
     min-width:250px;
-    color: #1F1F1F !important;
 }
 
 .myButton:hover{
-    border:1px solid #cc005f  !important;
-    color: #cc005f !important;
+  
 }
